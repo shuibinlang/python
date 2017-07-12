@@ -1,0 +1,68 @@
+=========================================== 输入编码
+输入编码需要由二进制转为Unicode，输入介质：源码文件、终端、文件、网络等
+python3默认是使用utf-8编码对输入的二进制值转为Unicode。 也就是说如果输入介质没有指定编码，python3解释器就默认把你的源文件看成是utf-8编码。
+调用sys.getdefaultencoding()可以查看到是utf-8编码。
+输入介质指定编码的方法：
+1、源码文件：在源文件第二行指定：# -*- coding: utf-8 -*-
+2、文件：f = open("E:\\Python\\zw.txt", "r", encoding = "utf-8")
+3、终端：export LANG="en_US.UTF-8"或者sys.stdin= open(sys.stdin.fileno(), mode='w', encoding='utf8', buffering=1)
+4、。。。
+
+
+
+=========================================== 输出编码
+输出编码需要由Unicode转为二进制，输出介质：终端、文件、网络等
+[chrispan@VM_88_69_centos ~]$ export LANG="en_US.UTF-8"
+[chrispan@VM_88_69_centos ~]$ echo $LANG
+en_US.UTF-8
+[chrispan@VM_88_69_centos ~]$ python3
+python 3.3.3 (default, Mar 24 2017, 11:45:29) 
+[GCC 4.4.6 20110731 (Red Hat 4.4.6-3)] on Linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> nettype = '\u7f51\u7edc\u7c7b\u578b'
+>>> nettype
+'网络类型'
+>>> print(nettype)
+网络类型
+>>> print(nettype.encode("utf8"))
+b'\xe7\xbd\x91\xe7\xbb\x9c\xe7\xb1\xbb\xe5\x9e\x8b'
+>>> print(nettype.encode("gbk"))
+b'\xcd\xf8\xc2\xe7\xc0\xe0\xd0\xcd'
+>>> 
+
+
+
+python3, nettype是Unicode字符。用print输出到终端时必须转为二进制（隐式转换），Unicode字符转为二进制必须要指定编码类型。
+print是依据sys.stdout.encoding指定的编码类型编码，可以查看标准输出编码类型print(sys.stdout.encoding)
+那么如何设置sys.stdout.encoding呢？
+两种方法：
+1、终端执行：export LANG="en_US.UTF-8"
+2、代码中设置：sys.stdout = open(sys.stdout.fileno(), mode='w', encoding='utf8', buffering=1)
+
+
+为什么显示转换为二进制，结果是如下呢：
+>>> print(nettype.encode("utf8"))
+b'\xe7\xbd\x91\xe7\xbb\x9c\xe7\xb1\xbb\xe5\x9e\x8b'
+
+
+nettype.encode("utf8")的结果是二进制，而print需要的是str类型，二进制转为str时并没有编码，而是按以上结果转换（因为str是一个类，转换是依据类的某个函数转换）。二进制调用decode的时候才需要制定编码类型，进行编码为Unicode的str类
+例如：
+>>> b = s.encode("utf-8")
+>>> b
+b'\xe7\xbd\x91\xe7\xbb\x9c\xe7\xb1\xbb\xe5\x9e\x8b'
+>>> type(b)
+<class 'bytes'>
+>>> str(b)
+"b'\\xe7\\xbd\\x91\\xe7\\xbb\\x9c\\xe7\\xb1\\xbb\\xe5\\x9e\\x8b'"
+>>> print(b.decode("utf-8"))
+网络类型
+>>> 
+
+
+====================================== 查看unicode
+>>> s = '\u7f51\u7edc\u7c7b\u578b'
+>>> s
+'网络类型'
+>>> print(s.encode("unicode_escape").decode("u8"))
+\u7f51\u7edc\u7c7b\u578b
+>>> 
