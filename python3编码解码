@@ -66,3 +66,20 @@ b'\xe7\xbd\x91\xe7\xbb\x9c\xe7\xb1\xbb\xe5\x9e\x8b'
 >>> print(s.encode("unicode_escape").decode("u8"))
 \u7f51\u7edc\u7c7b\u578b
 >>> 
+
+
+===================================================
+import os
+import fileinput
+
+os.system('export LANG="en_US.UTF-8"')
+
+for uin in fileinput.input("num.txt"):
+    sql = '''SELECT 	CONCAT(\\"curl -H 'Host: soa.fms.com' 'http://10.182.49.70:53285/CSP/Rest/CSPService/Get/GetContractPdf/TENCENTCLOUD_D7CD923B/?contractid=\\",B.cspId,\\"' \\",\\"-o 'contracts/\\",A. NAME,\\"-\\",A.uin,\\".pdf' \\") FROM cAgent A LEFT JOIN cAgentSOA B ON A.uin = B.agentUin WHERE B.cspId <> '' AND A.uin IN (%s);''' % uin
+
+    cmd = 'echo "%s" |  mysql -uroot -N -h10.249.50.199 --port=17807 -p"mN3Gu2!7Pp" rebate --default-character-set=utf8' % sql
+    fd = os.popen(cmd)
+    curl = fd.readline()
+    fd.close()
+    os.system(curl)
+fileinput.close()
