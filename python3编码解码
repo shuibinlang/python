@@ -1,7 +1,7 @@
 =========================================== 输入编码
 输入编码需要由二进制转为Unicode，输入介质：源码文件、终端、文件、网络等
 python3默认是使用utf-8编码对输入的二进制值转为Unicode。 也就是说如果输入介质没有指定编码，python3解释器就默认把你的源文件看成是utf-8编码。
-python2.x调用sys.getdefaultencoding()可以查看到是utf-8编码。
+调用sys.getdefaultencoding()可以查看到是utf-8编码。
 输入介质指定编码的方法：
 1、源码文件：在源文件第二行指定：# -*- coding: utf-8 -*-
 2、文件：f = open("E:\\Python\\zw.txt", "r", encoding = "utf-8")
