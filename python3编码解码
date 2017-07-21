@@ -95,12 +95,12 @@ for uin in fileinput.input("num.txt"):
 fileinput.close()
 
  
-以下疑问：
+
 UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-3: ordinal not in range(128)
 >>> import locale
 >>> locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 'en_US.UTF-8'
->>> print(nettype)
+>>> print(nettype)  #sys.stdout.encodeing初始化时根据locale设置，重新设置locale不会动态改变sys.stdout.encodeing
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-3: ordinal not in range(128)
