@@ -89,5 +89,5 @@ for uin in fileinput.input("num.txt"):
     fd = os.popen(cmd)
     curl = fd.readline()
     fd.close()
-    os.system(curl)
+    os.system(curl.encode('utf8'))
 fileinput.close()
