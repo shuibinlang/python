@@ -91,3 +91,39 @@ for uin in fileinput.input("num.txt"):
     fd.close()
     os.system(curl.encode('utf8'))
 fileinput.close()
+
+ 
+以下疑问：
+UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-3: ordinal not in range(128)
+>>> import locale
+>>> locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
+'en_US.UTF-8'
+>>> print(nettype)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-3: ordinal not in range(128)
+>>> quit()
+[chrispan@VM_88_69_centos ~/test]$ export LC_ALL='en_US.UTF-8'
+[chrispan@VM_88_69_centos ~/test]$ locale
+LANG=en
+LC_CTYPE="en_US.UTF-8"
+LC_NUMERIC="en_US.UTF-8"
+LC_TIME="en_US.UTF-8"
+LC_COLLATE="en_US.UTF-8"
+LC_MONETARY="en_US.UTF-8"
+LC_MESSAGES="en_US.UTF-8"
+LC_PAPER="en_US.UTF-8"
+LC_NAME="en_US.UTF-8"
+LC_ADDRESS="en_US.UTF-8"
+LC_TELEPHONE="en_US.UTF-8"
+LC_MEASUREMENT="en_US.UTF-8"
+LC_IDENTIFICATION="en_US.UTF-8"
+LC_ALL=en_US.UTF-8
+[chrispan@VM_88_69_centos ~/test]$ python3
+Python 3.3.3 (default, Mar 24 2017, 11:45:29) 
+[GCC 4.4.6 20110731 (Red Hat 4.4.6-3)] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> nettype = '\u7f51\u7edc\u7c7b\u578b'
+>>> print(nettype)
+网络类型
+>>> 
