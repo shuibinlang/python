@@ -72,8 +72,15 @@ b'\xe7\xbd\x91\xe7\xbb\x9c\xe7\xb1\xbb\xe5\x9e\x8b'
 import os
 import fileinput
 
-os.system('export LANG="en_US.UTF-8"')
-
+import locale
+# fd.readline()读的二进制流是utf8编码，以下的设置必须
+locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
+ 
+# 但是print（curl）还是有问题，以下设置可以解决print的问题
+sys.stdout = open(sys.stdout.fileno(), mode='w', encoding='utf8', buffering=1)
+ 
+# 但是os.system(curl)还是有问题，怎么解决？
+ 
 for uin in fileinput.input("num.txt"):
     sql = '''SELECT 	CONCAT(\\"curl -H 'Host: soa.fms.com' 'http://10.182.49.70:53285/CSP/Rest/CSPService/Get/GetContractPdf/TENCENTCLOUD_D7CD923B/?contractid=\\",B.cspId,\\"' \\",\\"-o 'contracts/\\",A. NAME,\\"-\\",A.uin,\\".pdf' \\") FROM cAgent A LEFT JOIN cAgentSOA B ON A.uin = B.agentUin WHERE B.cspId <> '' AND A.uin IN (%s);''' % uin
 
